@@ -1,0 +1,369 @@
+# Rime schema
+# encoding: utf-8
+
+__include: snow_pinyin.schema.yaml:/
+
+schema:
+  schema_id: snow_yipin
+  name: 冰雪一拼
+  version: "0.3"
+  author:
+    - 张皓哲 <576440085@qq.com>
+    - 谭淞宸 <i@tansongchen.com>
+  description: |
+    带调拼音字词顶功输入方案
+    拼读并击的顶功和整句版，使用脚本翻译器来达到更好的打词体验
+  dependencies:
+    - snow_pinyin
+    - snow_xingpang
+
+engine:
+  processors:
+    - ascii_composer
+    - chord_composer
+    - lua_processor@*snow.shape_processor
+    - lua_processor@*snow.combo_popping
+    - recognizer
+    - key_binder
+    - speller
+    - punctuator
+    - selector
+    - navigator
+    - express_editor
+  segmentors:
+    - ascii_segmentor
+    - matcher
+    - abc_segmentor
+    - punct_segmentor
+    - fallback_segmentor
+  translators:
+    - punct_translator
+    - script_translator
+  filters:
+    - lua_filter@*snow.fix
+    - uniquifier
+    - lua_filter@*snow.shape_filter
+    - simplifier
+
+chord_composer:
+  alphabet: "qazwsxedcrfvtgbyhnujmik,ol.p;/' "
+  algebra:
+    # 双手并击，打出音节
+    - xform|^([qazwsxedcrfvtgb]+)([p;/ol.ik,ujmyhn]+)$| $1  $2 |
+    # 双手带空格并击，打出追加音节，这里 u 表示追加
+    - xform|^([qazwsxedcrfvtgb]+)([p;/ol.ik,ujmyhn]+) $|u $1  $2 |
+    # 左手或右手带空格并击，打出辅助码
+    - xform/^([qazwsxedcrfvtgb]+) $/v $1 v/
+    - xform/^([yhnujmikolp]+) $/v$1$1v/
+    # 左手并击，打出声介（一简字）
+    - xform/^([qazwsxedcrfvtgb]+)$/o $1  /
+    # 左手并击右手单引号，打出声介的二选（一简词）
+    - xform/^([qazwsxedcrfvtgb]+)'$/o $1 - /
+    # 右手并击，打出符号和功能键
+    - xform|^h$|iduh |
+    - xform|^j$|idh |
+    - xform|^k$|ijh |
+    - xform|^l$|iwh |
+    - xform|^y$|ipzh |
+    - xform|^u$|izsyh |
+    - xform|^i$|iysyh |
+    - xform|^o$|imh |
+    - xform|^p$|ifh |
+    - xform|^n$|islh |
+    - xform|^m$|ith |
+    - xform|^ui$|izkh |
+    - xform|^io$|iykh |
+    - xform|^uo$|izsmh |
+    - xform|^up$|iysmh |
+    - xform|^m,$|ifgh |
+    - xform|^,\.$|iblh |
+    - xform|^m\.$|izdyh |
+    - xform|^m\/$|iydyh |
+    - xform/^jk$/- /
+    - xform/^kl$/-- /
+    - xform/^jl$/--- /
+    - xform/^j;$/---- /
+    - xform/-/{Right}/
+    - xform/^hk$/{Page_Up}/
+    - xform/^hl$/{Page_Down}/
+    # 左手声介
+    - xform/ zv /rj/
+    - xform/ d /rji/
+    - xform/ e /rju/
+    - xform/ sd /rjv/
+    - xform/ w /b/
+    - xform/ sg /bi/
+    - xform/ eg /p/
+    - xform/ xg /pi/
+    - xform/ c /m/
+    - xform/ qf /mi/
+    - xform/ t /f/
+    - xform/ f /d/
+    - xform/ xc /di/
+    - xform/ cv /du/
+    - xform/ af /t/
+    - xform/ wf /ti/
+    - xform/ zf /tu/
+    - xform/ dg /n/
+    - xform/ cf /ni/
+    - xform/ se /nu/
+    - xform/ xd /nv/
+    - xform/ b /l/
+    - xform/ x /li/
+    - xform/ wg /lu/
+    - xform/ as /lv/
+    - xform/ sf /g/
+    - xform/ v /gu/
+    - xform/ xv /k/
+    - xform/ cg /ku/
+    - xform/ z /h/
+    - xform/ er /hu/
+    - xform/ a /gi/
+    - xform/ sr /gv/
+    - xform/ df /ki/
+    - xform/ sv /kv/
+    - xform/ r /hi/
+    - xform/ dr /hv/
+    - xform/ g /zj/
+    - xform/ we /zju/
+    - xform/ qr /cj/
+    - xform/ dv /cju/
+    - xform/ s /sj/
+    - xform/ ag /sju/
+    - xform/ wr /r/
+    - xform/ qg /ru/
+    - xform/ q /z/
+    - xform/ ef /zu/
+    - xform/ xf /c/
+    - xform/ zg /cu/
+    - xform/ av /s/
+    - xform/ ar /su/
+    # 右手韵调
+    - xform/ ; /1/
+    - xform/ u /2/
+    - xform/ l /3/
+    - xform/ j /4/
+    - xform/ n /a1/
+    - xform/ ul /a2/
+    - xform/ mk /a3/
+    - xform/ io /a4/
+    - xform/ ho /ai1/
+    - xform/ hl /ai2/
+    - xform/ hi /ai3/
+    - xform/ j; /ai4/
+    - xform/ ui /an1/
+    - xform| / |an2|
+    - xform/ m, /an3/
+    - xform/ o /an4/
+    - xform/ ,\. /ang1/
+    - xform/ ji /ang2/
+    - xform/ jo /ang3/
+    - xform/ uo /ang4/
+    - xform/ j\. /ao1/
+    - xform/ u; /ao2/
+    - xform| m/ |ao3|
+    - xform/ kl /ao4/
+    - xform/ k /e1/
+    - xform/ p /e2/
+    - xform/ m /e3/
+    - xform/ h /e4/
+    - xform/ uk /ei1/
+    - xform/ m; /ei2/
+    - xform/ j, /ei3/
+    - xform/ \. /ei4/
+    - xform/ , /en1/
+    - xform/ jl /en2/
+    - xform/ jp /en3/
+    - xform/ hk /en4/
+    - xform/ i /eng1/
+    - xform/ y /eng2/
+    - xform/ h; /eng3/
+    - xform/ jk /eng4/
+    - xform| j/ |ou1|
+    - xform/ ml /ou2/
+    - xform/ up /ou3/
+    - xform/ m\. /ou4/
+    - xlit/1234/wyxq/
+  output_format:
+    # 首先去除无效的并击组合
+    - erase/^.* .+ .*$/
+    # 针对所有可能的音节加上中括号
+    - xform/^(u?[bpm])(a|ai|an|ang|ao|e|ei|en|eng|ou|i|ia|ian|iang|iao|ie|ien|ieng|iou)?([wyxq])$/[$1$2$3]/
+    - xform/^(u?f)(a|an|ang|e|ei|en|eng|ou)?([wyxq])$/[$1$2$3]/
+    - xform/^(u?[dt])(a|ai|an|ang|ao|e|ei|en|eng|ou|i|ia|ian|iao|ie|ieng|iou|u|uan|ue|uei|uen|ueng)?([wyxq])$/[$1$2$3]/
+    - xform/^(u?[nl])(a|ai|an|ang|ao|e|ei|en|eng|ou|i|ia|ian|iang|iao|ie|ien|ieng|iou|u|uan|ue|uen|ueng|v|ve)([wyxq])$/[$1$2$3]/
+    - xform/^(u?[gkhr]j?)(a|ai|an|ang|ao|e|ei|en|eng|ou|i|ia|ian|iang|iao|ie|ien|ieng|iou|u|ua|uai|uan|uang|ue|uei|uen|ueng|v|van|ve|ven|veng)?([wyxq])$/[$1$2$3]/
+    - xform/^(u?[zcs]j)(a|ai|an|ang|ao|e|ei|en|eng|ou|u|ua|uai|uan|uang|ue|uei|uen|ueng)?([wyxq])$/[$1$2$3]/
+    - xform/^(u?r)(an|ang|ao|e|en|eng|ou|u|ua|uan|ue|uei|uen|ueng)?([wyxq])$/[$1$2$3]/
+    - xform/^(u?[zcs])(a|ai|an|ang|ao|e|ei|en|eng|ou|u|uan|ue|uei|uen|ueng)?([wyxq])$/[$1$2$3]/
+    # 单独打声介的情况
+    - xform/^(o?[bpmfdtnlgkhzcsr]j?[iuv]?)$/[$1]/
+    # 辅助码的情况
+    - xform/^(v.+v)$/[$1]/
+    # 去除不合法音节
+    - erase/^[a-z]+$/
+    - xform/^\[(.+)\]/$1/
+  prompt_format:
+    # 加方括弧
+    - 'xform/^(.*)$/[$1]/'
+
+editor:
+  bindings:
+    # 退格鍵刪除一個拼音音節
+    BackSpace: back_syllable
+
+speller:
+  alphabet: "bpmfdtnlgkhjqxzcsrywaeiouv"
+  initials: "bpmfdtnlgkhjqxzcsryw"
+  shape:
+    # v 表示辅助码结束
+    - match: "[bpmfdtnlgkhjqxzcsr]j?[iuv]?(a|ai|an|ang|ao|e|ei|en|eng|ou)?[wyxq]"
+      accept: "v"
+    - match_shape: "v[^v]*"
+      accept: "[a-z]"
+  algebra:
+    # 合并轻声
+    - xform/5/1/
+    # 合并边缘音节
+    - xform/^(h?)ng(?=\d)/$1eng/
+    - xform/^n(?=\d)/en/
+    - xform/^m(?=\d)/mu/
+    - xform/^hm(?=\d)/hen/
+    - xform/^([yl]?)o(?=\d)/$1e/
+    # 韵调变换
+    - xform/(?<=[jqxy])u/$1v/
+    - xform/ui/uei/
+    - xform/iu/iou/
+    - xform/(?<=[iuv])n/en/
+    - xform/ing/ieng/
+    - xform/(?<![iy])ong/ueng/
+    - xform/(iong|(?<=y)ong)/veng/
+    - xform/(?<=[bpmfuw])o(?=\d)/e/
+    # 声介变换
+    - xlit/jqx/gkh/
+    - xform/^(?=[aoeyw])/rj/
+    - xform/^rjyv/rjv/
+    - xform/^rjyi?/rji/
+    - xform/^rjwu?/rju/
+    - xform/^([zcs])h/$1j/
+    # 隐含的韵母
+    - xform/er//
+    - xform/(?<=[bpmf])u//
+    - xform/^([zcs]j?|r)i/$1/
+    # 字母标调
+    - xlit/1234/wyxq/
+    # 支持声介简拼
+    - abbrev/^([bpmfdtnlgkhzcsr]j?[iuv]).+$/$1/
+
+translator:
+  prism: snow_yipin
+  preedit_format:
+    # 字母标调
+    - xlit/wyxq/1234/
+    # 隐含的韵母
+    - xform/([zcs]j?|r)(?=\d)/$1i/
+    - xform/(?<=[bpmf])(?=\d)/u/
+    - xform/rj(?=\d)/rjer/
+    # 声介变换
+    - xform/([zcs])j/$1h/
+    - xform/rji(\d|en\d|eng\d)/rjyi$1/
+    - xform/rji/rjy/
+    - xform/rju(\d)/rjwu$1/
+    - xform/rju/rjw/
+    - xform/rjv/rjyv/
+    - xform/rj//
+    - xform/g(?=[iv])/j/
+    - xform/k(?=[iv])/q/
+    - xform/(?<![zcs])h(?=[iv])/x/
+    # 韵调变换
+    - xform/(?<=[bpmfuw])e(?=\d)/o/
+    - xform/yveng/yong/
+    - xform/veng/iong/
+    - xform/ueng/ong/
+    - xform/ieng/ing/
+    - xform/(?<=[iuv])en/n/
+    - xform/iou/iu/
+    - xform/uei/ui/
+    - xform/([jqxy])v/$1u/
+
+punctuator:
+  half_shape:
+    '1' : '1'
+    '2' : '2'
+    '3' : '3'
+    '4' : '4'
+    '5' : '5'
+    '6' : '6'
+    '7' : '7'
+    '8' : '8'
+    '9' : '9'
+    '0' : '0'
+    '!' : '!'
+    '@' : '@'
+    '#' : '#'
+    '$' : '$'
+    '%' : '%'
+    '^' : '^'
+    '&' : '&'
+    '*' : '*'
+    '(' : '('
+    ')' : ')'
+    '`' : '`'
+    '~' : '~'
+    '-' : '-'
+    '_' : '_'
+    '+' : '+'
+    '=' : '='
+    '[' : '['
+    '{' : '{'
+    ']' : ']'
+    '}' : '}'
+    '\' : '\'
+    '|' : '|'
+    ';' : ';'
+    ':' : ':'
+    "'" : "'"
+    '"' : '"'
+    ',' : ','
+    '<' : '<'
+    '.' : '.'
+    '>' : '>'
+    '/' : '/'
+    '?' : '?'
+  symbols:
+    __include: snow_pinyin.schema.yaml:/punctuator/symbols
+    'ith': '！'
+    'islh': '……'
+    'izkh': '（'
+    'iykh': '）'
+    'ifgh': '·'
+    'iblh': '～'
+    'ipzh': '——'
+    'ifh': '；'
+    'imh': '：'
+    'izdyh': '‘'
+    'iydyh': '’'
+    'izsyh': '“'
+    'iysyh': '”'
+    'idh': '，'
+    'izsmh': '《'
+    'ijh': '。'
+    'iysmh': '》'
+    'iduh': '、'
+    'iwh': '？'
+
+__patch:
+  - patch
+  - snow_yipin.custom:/patch?
+
+patch:
+  switches/+:
+    - name: popping
+      states: [整句, 顶功]
+      reset: 1
+  key_binder/bindings/+:
+    - { when: composing, accept: bracketright, send: Page_Down }
+    - { when: composing, accept: bracketleft, send: Page_Up }
+  menu/alternative_select_keys: null
+  translator/shape_elements: snow_xingpang
+  translator/shape_mapping: "radical_shengjie.txt"
