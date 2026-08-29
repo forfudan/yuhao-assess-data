@@ -1,0 +1,21 @@
+# Rime schema
+# vim: set sw=2 sts=2 et:
+# encoding: utf-8
+#
+# Sky Han - 中文天码
+#
+# QQ群：631302614
+# 主页：http://soongsky.com/sky/
+# 网盘：http://tianma.ysepan.com/
+
+__include: sky.schema:/
+
+schema:
+  schema_id: &schema sky_han
+  name: 中文天码
+  description: |
+    天码输入法
+    包含汉字基本集CJK、扩展集CJK-A~J全汉字、词组，编码兼顾大陆、港台字形
+
+translator:
+  dictionary: *schema
