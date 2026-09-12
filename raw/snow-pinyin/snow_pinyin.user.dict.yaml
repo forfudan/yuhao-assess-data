@@ -1,0 +1,17 @@
+---
+name: snow_pinyin.user
+version: "0.3"
+sort: by_weight
+use_preset_vocabulary: false
+...
+
+# 本文件用于批量导入用户的自定义词汇。
+# 本文件的格式为：<词>\t<以空格分隔的完整的带调拼音>\t<词频>
+# 您可以使用「冰雪注音」小工具（https://input.tansongchen.com/pronunciation.html）来给您的词语加上拼音
+# 以下是几条示例
+
+冰雪拼音	bing1 xue3 pin1 yin1	100
+冰雪四拼	bing1 xue3 si4 pin1	100
+冰雪三拼	bing1 xue3 san1 pin1	100
+冰雪双拼	bing1 xue3 shuang1 pin1	100
+冰雪一拼	bing1 xue3 yi1 pin1	100

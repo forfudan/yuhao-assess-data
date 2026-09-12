@@ -1,0 +1,871 @@
+schema: snow_yipin
+source_dir: ..
+script: |
+  function has(something)
+    for _, v in ipairs(cand) do
+      if v.text == something then
+        return true
+      end
+    end
+    return false
+  end
+deploy:
+  syllable:
+    tests:
+      - send: zvio{Release+z}{Release+v}{Release+i}{Release+o}
+        assert: preedit == "a4"
+      - send: zvj;{Release+z}{Release+v}{Release+j}{Release+semicolon}
+        assert: preedit == "ai4"
+      - send: zvui{Release+z}{Release+v}{Release+u}{Release+i}
+        assert: preedit == "an1"
+      - send: zvuo{Release+z}{Release+v}{Release+u}{Release+o}
+        assert: preedit == "ang4"
+      - send: zvu;{Release+z}{Release+v}{Release+u}{Release+semicolon}
+        assert: preedit == "ao2"
+      - send: wul{Release+w}{Release+u}{Release+l}
+        assert: preedit == "ba2"
+      - send: wj;{Release+w}{Release+j}{Release+semicolon}
+        assert: preedit == "bai4"
+      - send: wui{Release+w}{Release+u}{Release+i}
+        assert: preedit == "ban1"
+      - send: w,.{Release+w}{Release+comma}{Release+period}
+        assert: preedit == "bang1"
+      - send: wkl{Release+w}{Release+k}{Release+l}
+        assert: preedit == "bao4"
+      - send: wj,{Release+w}{Release+j}{Release+comma}
+        assert: preedit == "bei3"
+      - send: w,{Release+w}{Release+comma}
+        assert: preedit == "ben1"
+      - send: wi{Release+w}{Release+i}
+        assert: preedit == "beng1"
+      - send: sgl{Release+s}{Release+g}{Release+l}
+        assert: preedit == "bi3"
+      - send: sgui{Release+s}{Release+g}{Release+u}{Release+i}
+        assert: preedit == "bian1"
+      - send: sgm/{Release+s}{Release+g}{Release+m}{Release+slash}
+        assert: preedit == "biao3"
+      - send: sgk{Release+s}{Release+g}{Release+k}
+        assert: preedit == "bie1"
+      - send: sg,{Release+s}{Release+g}{Release+comma}
+        assert: preedit == "bin1"
+      - send: sgi{Release+s}{Release+g}{Release+i}
+        assert: preedit == "bing1"
+      - send: wm{Release+w}{Release+m}
+        assert: preedit == "bo3"
+      - send: wj{Release+w}{Release+j}
+        assert: preedit == "bu4"
+      - send: xfn{Release+x}{Release+f}{Release+n}
+        assert: preedit == "ca1"
+      - send: xfj;{Release+x}{Release+f}{Release+j}{Release+semicolon}
+        assert: preedit == "cai4"
+      - send: xfui{Release+x}{Release+f}{Release+u}{Release+i}
+        assert: preedit == "can1"
+      - send: xfji{Release+x}{Release+f}{Release+j}{Release+i}
+        assert: preedit == "cang2"
+      - send: xfu;{Release+x}{Release+f}{Release+u}{Release+semicolon}
+        assert: preedit == "cao2"
+      - send: xfh{Release+x}{Release+f}{Release+h}
+        assert: preedit == "ce4"
+      - send: xf,{Release+x}{Release+f}{Release+comma}
+        assert: preedit == "cen1"
+      - send: xfy{Release+x}{Release+f}{Release+y}
+        assert: preedit == "ceng2"
+      - send: qrio{Release+q}{Release+r}{Release+i}{Release+o}
+        assert: preedit == "cha4"
+      - send: qrhi{Release+q}{Release+r}{Release+h}{Release+i}
+        assert: preedit == "chai3"
+      - send: qrui{Release+q}{Release+r}{Release+u}{Release+i}
+        assert: preedit == "chan1"
+      - send: qr,.{Release+q}{Release+r}{Release+comma}{Release+period}
+        assert: preedit == "chang1"
+      - send: qru;{Release+q}{Release+r}{Release+u}{Release+semicolon}
+        assert: preedit == "chao2"
+      - send: qrh{Release+q}{Release+r}{Release+h}
+        assert: preedit == "che4"
+      - send: qr,{Release+q}{Release+r}{Release+comma}
+        assert: preedit == "chen1"
+      - send: qrjk{Release+q}{Release+r}{Release+j}{Release+k}
+        assert: preedit == "cheng4"
+      - send: qrl{Release+q}{Release+r}{Release+l}
+        assert: preedit == "chi3"
+      - send: dvi{Release+d}{Release+v}{Release+i}
+        assert: preedit == "chong1"
+      - send: qrup{Release+q}{Release+r}{Release+u}{Release+p}
+        assert: preedit == "chou3"
+      - send: dvj{Release+d}{Release+v}{Release+j}
+        assert: preedit == "chu4"
+      - send: dvn{Release+d}{Release+v}{Release+n}
+        assert: preedit == "chua1"
+      - send: dvhi{Release+d}{Release+v}{Release+h}{Release+i}
+        assert: preedit == "chuai3"
+      - send: dv/{Release+d}{Release+v}{Release+slash}
+        assert: preedit == "chuan2"
+      - send: dvuo{Release+d}{Release+v}{Release+u}{Release+o}
+        assert: preedit == "chuang4"
+      - send: dvuk{Release+d}{Release+v}{Release+u}{Release+k}
+        assert: preedit == "chui1"
+      - send: dvjp{Release+d}{Release+v}{Release+j}{Release+p}
+        assert: preedit == "chun3"
+      - send: dvh{Release+d}{Release+v}{Release+h}
+        assert: preedit == "chuo4"
+      - send: xfj{Release+x}{Release+f}{Release+j}
+        assert: preedit == "ci4"
+      - send: zgy{Release+z}{Release+g}{Release+y}
+        assert: preedit == "cong2"
+      - send: xfm.{Release+x}{Release+f}{Release+m}{Release+period}
+        assert: preedit == "cou4"
+      - send: zgj{Release+z}{Release+g}{Release+j}
+        assert: preedit == "cu4"
+      - send: zg/{Release+z}{Release+g}{Release+slash}
+        assert: preedit == "cuan2"
+      - send: zguk{Release+z}{Release+g}{Release+u}{Release+k}
+        assert: preedit == "cui1"
+      - send: zgjp{Release+z}{Release+g}{Release+j}{Release+p}
+        assert: preedit == "cun3"
+      - send: zgh{Release+z}{Release+g}{Release+h}
+        assert: preedit == "cuo4"
+      - send: fmk{Release+f}{Release+m}{Release+k}
+        assert: preedit == "da3"
+      - send: fj;{Release+f}{Release+j}{Release+semicolon}
+        assert: preedit == "dai4"
+      - send: fo{Release+f}{Release+o}
+        assert: preedit == "dan4"
+      - send: fjo{Release+f}{Release+j}{Release+o}
+        assert: preedit == "dang3"
+      - send: fm/{Release+f}{Release+m}{Release+slash}
+        assert: preedit == "dao3"
+      - send: fp{Release+f}{Release+p}
+        assert: preedit == "de2"
+      - send: fj,{Release+f}{Release+j}{Release+comma}
+        assert: preedit == "dei3"
+      - send: fhk{Release+f}{Release+h}{Release+k}
+        assert: preedit == "den4"
+      - send: fi{Release+f}{Release+i}
+        assert: preedit == "deng1"
+      - send: xc;{Release+x}{Release+c}{Release+semicolon}
+        assert: preedit == "di1"
+      - send: xcmk{Release+x}{Release+c}{Release+m}{Release+k}
+        assert: preedit == "dia3"
+      - send: xcm,{Release+x}{Release+c}{Release+m}{Release+comma}
+        assert: preedit == "dian3"
+      # - send: xcm/{Release+x}{Release+c}{Release+m}{Release+slash}
+      #   assert: preedit == "diao3"
+      - send: xcp{Release+x}{Release+c}{Release+p}
+        assert: preedit == "die2"
+      - send: xch;{Release+x}{Release+c}{Release+h}{Release+semicolon}
+        assert: preedit == "ding3"
+      - send: xcj/{Release+x}{Release+c}{Release+j}{Release+slash}
+        assert: preedit == "diu1"
+      - send: cvi{Release+c}{Release+v}{Release+i}
+        assert: preedit == "dong1"
+      - send: fm.{Release+f}{Release+m}{Release+period}
+        assert: preedit == "dou4"
+      - send: cvj{Release+c}{Release+v}{Release+j}
+        assert: preedit == "du4"
+      - send: cvm,{Release+c}{Release+v}{Release+m}{Release+comma}
+        assert: preedit == "duan3"
+      - send: cv.{Release+c}{Release+v}{Release+period}
+        assert: preedit == "dui4"
+      - send: cvhk{Release+c}{Release+v}{Release+h}{Release+k}
+        assert: preedit == "dun4"
+      - send: cvp{Release+c}{Release+v}{Release+p}
+        assert: preedit == "duo2"
+      - send: zvp{Release+z}{Release+v}{Release+p}
+        assert: preedit == "e2"
+      - send: zvj,{Release+z}{Release+v}{Release+j}{Release+comma}
+        assert: preedit == "ei3"
+      - send: zvhk{Release+z}{Release+v}{Release+h}{Release+k}
+        assert: preedit == "en4"
+      # - send: zvi{Release+z}{Release+v}{Release+i}
+      #   assert: preedit == "eng1"
+      - send: zvj{Release+z}{Release+v}{Release+j}
+        assert: preedit == "er4"
+      - send: tul{Release+t}{Release+u}{Release+l}
+        assert: preedit == "fa2"
+      - send: t/{Release+t}{Release+slash}
+        assert: preedit == "fan2"
+      - send: tji{Release+t}{Release+j}{Release+i}
+        assert: preedit == "fang2"
+      - send: tm;{Release+t}{Release+m}{Release+semicolon}
+        assert: preedit == "fei2"
+      - send: tjp{Release+t}{Release+j}{Release+p}
+        assert: preedit == "fen3"
+      - send: ty{Release+t}{Release+y}
+        assert: preedit == "feng2"
+      - send: tp{Release+t}{Release+p}
+        assert: preedit == "fo2"
+      - send: tup{Release+t}{Release+u}{Release+p}
+        assert: preedit == "fou3"
+      - send: tl{Release+t}{Release+l}
+        assert: preedit == "fu3"
+      - send: sfn{Release+s}{Release+f}{Release+n}
+        assert: preedit == "ga1"
+      - send: sfj;{Release+s}{Release+f}{Release+j}{Release+semicolon}
+        assert: preedit == "gai4"
+      - send: sfm,{Release+s}{Release+f}{Release+m}{Release+comma}
+        assert: preedit == "gan3"
+      - send: sfuo{Release+s}{Release+f}{Release+u}{Release+o}
+        assert: preedit == "gang4"
+      - send: sfm/{Release+s}{Release+f}{Release+m}{Release+slash}
+        assert: preedit == "gao3"
+      - send: sfh{Release+s}{Release+f}{Release+h}
+        assert: preedit == "ge4"
+      - send: sfj,{Release+s}{Release+f}{Release+j}{Release+comma}
+        assert: preedit == "gei3"
+      - send: sf,{Release+s}{Release+f}{Release+comma}
+        assert: preedit == "gen1"
+      - send: sfh;{Release+s}{Release+f}{Release+h}{Release+semicolon}
+        assert: preedit == "geng3"
+      - send: vh;{Release+v}{Release+h}{Release+semicolon}
+        assert: preedit == "gong3"
+      - send: sfj/{Release+s}{Release+f}{Release+j}{Release+slash}
+        assert: preedit == "gou1"
+      - send: vl{Release+v}{Release+l}
+        assert: preedit == "gu3"
+      - send: vmk{Release+v}{Release+m}{Release+k}
+        assert: preedit == "gua3"
+      - send: vhi{Release+v}{Release+h}{Release+i}
+        assert: preedit == "guai3"
+      - send: vo{Release+v}{Release+o}
+        assert: preedit == "guan4"
+      - send: vuo{Release+v}{Release+u}{Release+o}
+        assert: preedit == "guang4"
+      - send: vuk{Release+v}{Release+u}{Release+k}
+        assert: preedit == "gui1"
+      - send: vhk{Release+v}{Release+h}{Release+k}
+        assert: preedit == "gun4"
+      - send: vp{Release+v}{Release+p}
+        assert: preedit == "guo2"
+      - send: zul{Release+z}{Release+u}{Release+l}
+        assert: preedit == "ha2"
+      - send: zho{Release+z}{Release+h}{Release+o}
+        assert: preedit == "hai1"
+      - send: z/{Release+z}{Release+slash}
+        assert: preedit == "han2"
+      - send: zuo{Release+z}{Release+u}{Release+o}
+        assert: preedit == "hang4"
+      - send: zu;{Release+z}{Release+u}{Release+semicolon}
+        assert: preedit == "hao2"
+      - send: zk{Release+z}{Release+k}
+        assert: preedit == "he1"
+      - send: zuk{Release+z}{Release+u}{Release+k}
+        assert: preedit == "hei1"
+      - send: zjl{Release+z}{Release+j}{Release+l}
+        assert: preedit == "hen2"
+      - send: zy{Release+z}{Release+y}
+        assert: preedit == "heng2"
+      # - send: z,{Release+z}{Release+comma}
+      #   assert: preedit == "hen1"
+      - send: zi{Release+z}{Release+i}
+        assert: preedit == "heng1"
+      - send: erh;{Release+e}{Release+r}{Release+h}{Release+semicolon}
+        assert: preedit == "hong3"
+      - send: zup{Release+z}{Release+u}{Release+p}
+        assert: preedit == "hou3"
+      - send: er;{Release+e}{Release+r}{Release+semicolon}
+        assert: preedit == "hu1"
+      - send: ern{Release+e}{Release+r}{Release+n}
+        assert: preedit == "hua1"
+      - send: erhl{Release+e}{Release+r}{Release+h}{Release+l}
+        assert: preedit == "huai2"
+      - send: erm,{Release+e}{Release+r}{Release+m}{Release+comma}
+        assert: preedit == "huan3"
+      - send: erjo{Release+e}{Release+r}{Release+j}{Release+o}
+        assert: preedit == "huang3"
+      - send: er.{Release+e}{Release+r}{Release+period}
+        assert: preedit == "hui4"
+      - send: er,{Release+e}{Release+r}{Release+comma}
+        assert: preedit == "hun1"
+      - send: erk{Release+e}{Release+r}{Release+k}
+        assert: preedit == "huo1"
+      - send: aj{Release+a}{Release+j}
+        assert: preedit == "ji4"
+      - send: aio{Release+a}{Release+i}{Release+o}
+        assert: preedit == "jia4"
+      - send: ao{Release+a}{Release+o}
+        assert: preedit == "jian4"
+      - send: a,.{Release+a}{Release+comma}{Release+period}
+        assert: preedit == "jiang1"
+      - send: akl{Release+a}{Release+k}{Release+l}
+        assert: preedit == "jiao4"
+      - send: ah{Release+a}{Release+h}
+        assert: preedit == "jie4"
+      - send: ajp{Release+a}{Release+j}{Release+p}
+        assert: preedit == "jin3"
+      - send: ajk{Release+a}{Release+j}{Release+k}
+        assert: preedit == "jing4"
+      - send: srh;{Release+s}{Release+r}{Release+h}{Release+semicolon}
+        assert: preedit == "jiong3"
+      - send: am.{Release+a}{Release+m}{Release+period}
+        assert: preedit == "jiu4"
+      - send: sru{Release+s}{Release+r}{Release+u}
+        assert: preedit == "ju2"
+      - send: srui{Release+s}{Release+r}{Release+u}{Release+i}
+        assert: preedit == "juan1"
+      - send: srp{Release+s}{Release+r}{Release+p}
+        assert: preedit == "jue2"
+      - send: srhk{Release+s}{Release+r}{Release+h}{Release+k}
+        assert: preedit == "jun4"
+      - send: xvmk{Release+x}{Release+v}{Release+m}{Release+k}
+        assert: preedit == "ka3"
+      - send: xvhi{Release+x}{Release+v}{Release+h}{Release+i}
+        assert: preedit == "kai3"
+      - send: xvui{Release+x}{Release+v}{Release+u}{Release+i}
+        assert: preedit == "kan1"
+      - send: xv,.{Release+x}{Release+v}{Release+comma}{Release+period}
+        assert: preedit == "kang1"
+      - send: xvkl{Release+x}{Release+v}{Release+k}{Release+l}
+        assert: preedit == "kao4"
+      - send: xvk{Release+x}{Release+v}{Release+k}
+        assert: preedit == "ke1"
+      - send: xvuk{Release+x}{Release+v}{Release+u}{Release+k}
+        assert: preedit == "kei1"
+      - send: xvjp{Release+x}{Release+v}{Release+j}{Release+p}
+        assert: preedit == "ken3"
+      - send: xvi{Release+x}{Release+v}{Release+i}
+        assert: preedit == "keng1"
+      - send: cgh;{Release+c}{Release+g}{Release+h}{Release+semicolon}
+        assert: preedit == "kong3"
+      - send: xvj/{Release+x}{Release+v}{Release+j}{Release+slash}
+        assert: preedit == "kou1"
+      - send: cgl{Release+c}{Release+g}{Release+l}
+        assert: preedit == "ku3"
+      - send: cgmk{Release+c}{Release+g}{Release+m}{Release+k}
+        assert: preedit == "kua3"
+      - send: cghi{Release+c}{Release+g}{Release+h}{Release+i}
+        assert: preedit == "kuai3"
+      - send: cgui{Release+c}{Release+g}{Release+u}{Release+i}
+        assert: preedit == "kuan1"
+      - send: cgjo{Release+c}{Release+g}{Release+j}{Release+o}
+        assert: preedit == "kuang3"
+      - send: cg.{Release+c}{Release+g}{Release+period}
+        assert: preedit == "kui4"
+      - send: cghk{Release+c}{Release+g}{Release+h}{Release+k}
+        assert: preedit == "kun4"
+      - send: cgh{Release+c}{Release+g}{Release+h}
+        assert: preedit == "kuo4"
+      - send: bio{Release+b}{Release+i}{Release+o}
+        assert: preedit == "la4"
+      - send: bj;{Release+b}{Release+j}{Release+semicolon}
+        assert: preedit == "lai4"
+      - send: bo{Release+b}{Release+o}
+        assert: preedit == "lan4"
+      - send: bji{Release+b}{Release+j}{Release+i}
+        assert: preedit == "lang2"
+      - send: bm/{Release+b}{Release+m}{Release+slash}
+        assert: preedit == "lao3"
+      - send: bh{Release+b}{Release+h}
+        assert: preedit == "le4"
+      - send: bm;{Release+b}{Release+m}{Release+semicolon}
+        assert: preedit == "lei2"
+      - send: bh;{Release+b}{Release+h}{Release+semicolon}
+        assert: preedit == "leng3"
+      - send: xl{Release+x}{Release+l}
+        assert: preedit == "li3"
+      - send: xmk{Release+x}{Release+m}{Release+k}
+        assert: preedit == "lia3"
+      - send: xm,{Release+x}{Release+m}{Release+comma}
+        assert: preedit == "lian3"
+      - send: xjo{Release+x}{Release+j}{Release+o}
+        assert: preedit == "liang3"
+      - send: xm/{Release+x}{Release+m}{Release+slash}
+        assert: preedit == "liao3"
+      - send: xk{Release+x}{Release+k}
+        assert: preedit == "lie1"
+      - send: x,{Release+x}{Release+comma}
+        assert: preedit == "lin1"
+      - send: xjk{Release+x}{Release+j}{Release+k}
+        assert: preedit == "ling4"
+      - send: xm.{Release+x}{Release+m}{Release+period}
+        assert: preedit == "liu4"
+      - send: bk{Release+b}{Release+k}
+        assert: preedit == "le1"
+      - send: wgh;{Release+w}{Release+g}{Release+h}{Release+semicolon}
+        assert: preedit == "long3"
+      - send: bml{Release+b}{Release+m}{Release+l}
+        assert: preedit == "lou2"
+      - send: wg;{Release+w}{Release+g}{Release+semicolon}
+        assert: preedit == "lu1"
+      - send: wgo{Release+w}{Release+g}{Release+o}
+        assert: preedit == "luan4"
+      - send: wgjp{Release+w}{Release+g}{Release+j}{Release+p}
+        assert: preedit == "lun3"
+      - send: wgh{Release+w}{Release+g}{Release+h}
+        assert: preedit == "luo4"
+      - send: asu{Release+a}{Release+s}{Release+u}
+        assert: preedit == "lv2"
+      # - send: ash{Release+a}{Release+s}{Release+h}
+      #   assert: preedit == "lve4"
+      # - send: cu{Release+c}{Release+u}
+      #   assert: preedit == "mu2"
+      - send: cmk{Release+c}{Release+m}{Release+k}
+        assert: preedit == "ma3"
+      - send: chl{Release+c}{Release+h}{Release+l}
+        assert: preedit == "mai2"
+      - send: c/{Release+c}{Release+slash}
+        assert: preedit == "man2"
+      - send: cjo{Release+c}{Release+j}{Release+o}
+        assert: preedit == "mang3"
+      - send: cj.{Release+c}{Release+j}{Release+period}
+        assert: preedit == "mao1"
+      - send: ck{Release+c}{Release+k}
+        assert: preedit == "mo1"
+      - send: cm;{Release+c}{Release+m}{Release+semicolon}
+        assert: preedit == "mei2"
+      - send: cjl{Release+c}{Release+j}{Release+l}
+        assert: preedit == "men2"
+      - send: ch;{Release+c}{Release+h}{Release+semicolon}
+        assert: preedit == "meng3"
+      - send: qf;{Release+q}{Release+f}{Release+semicolon}
+        assert: preedit == "mi1"
+      - send: qfo{Release+q}{Release+f}{Release+o}
+        assert: preedit == "mian4"
+      - send: qfu;{Release+q}{Release+f}{Release+u}{Release+semicolon}
+        assert: preedit == "miao2"
+      - send: qfh{Release+q}{Release+f}{Release+h}
+        assert: preedit == "mie4"
+      - send: qfjl{Release+q}{Release+f}{Release+j}{Release+l}
+        assert: preedit == "min2"
+      - send: qfh;{Release+q}{Release+f}{Release+h}{Release+semicolon}
+        assert: preedit == "ming3"
+      - send: qfm.{Release+q}{Release+f}{Release+m}{Release+period}
+        assert: preedit == "miu4"
+      - send: cp{Release+c}{Release+p}
+        assert: preedit == "mo2"
+      - send: cj/{Release+c}{Release+j}{Release+slash}
+        assert: preedit == "mou1"
+      - send: cl{Release+c}{Release+l}
+        assert: preedit == "mu3"
+      - send: zvhk{Release+z}{Release+v}{Release+h}{Release+k}
+        assert: preedit == "en4"
+      - send: dgio{Release+d}{Release+g}{Release+i}{Release+o}
+        assert: preedit == "na4"
+      - send: dghi{Release+d}{Release+g}{Release+h}{Release+i}
+        assert: preedit == "nai3"
+      - send: dgm,{Release+d}{Release+g}{Release+m}{Release+comma}
+        assert: preedit == "nan3"
+      - send: dguo{Release+d}{Release+g}{Release+u}{Release+o}
+        assert: preedit == "nang4"
+      - send: dgm/{Release+d}{Release+g}{Release+m}{Release+slash}
+        assert: preedit == "nao3"
+      - send: dgh{Release+d}{Release+g}{Release+h}
+        assert: preedit == "ne4"
+      - send: dgj,{Release+d}{Release+g}{Release+j}{Release+comma}
+        assert: preedit == "nei3"
+      - send: dghk{Release+d}{Release+g}{Release+h}{Release+k}
+        assert: preedit == "nen4"
+      - send: dgy{Release+d}{Release+g}{Release+y}
+        assert: preedit == "neng2"
+      # - send: zvjk{Release+z}{Release+v}{Release+j}{Release+k}
+      #   assert: preedit == "eng4"
+      - send: cf;{Release+c}{Release+f}{Release+semicolon}
+        assert: preedit == "ni1"
+      - send: cfui{Release+c}{Release+f}{Release+u}{Release+i}
+        assert: preedit == "nian1"
+      - send: cfuo{Release+c}{Release+f}{Release+u}{Release+o}
+        assert: preedit == "niang4"
+      - send: cfm/{Release+c}{Release+f}{Release+m}{Release+slash}
+        assert: preedit == "niao3"
+      - send: cfk{Release+c}{Release+f}{Release+k}
+        assert: preedit == "nie1"
+      - send: cfjl{Release+c}{Release+f}{Release+j}{Release+l}
+        assert: preedit == "nin2"
+      - send: cfh;{Release+c}{Release+f}{Release+h}{Release+semicolon}
+        assert: preedit == "ning3"
+      - send: cfml{Release+c}{Release+f}{Release+m}{Release+l}
+        assert: preedit == "niu2"
+      - send: sey{Release+s}{Release+e}{Release+y}
+        assert: preedit == "nong2"
+      - send: dgm.{Release+d}{Release+g}{Release+m}{Release+period}
+        assert: preedit == "nou4"
+      - send: sej{Release+s}{Release+e}{Release+j}
+        assert: preedit == "nu4"
+      - send: sem,{Release+s}{Release+e}{Release+m}{Release+comma}
+        assert: preedit == "nuan3"
+      - send: sep{Release+s}{Release+e}{Release+p}
+        assert: preedit == "nuo2"
+      - send: xdj{Release+x}{Release+d}{Release+j}
+        assert: preedit == "nv4"
+      # - send: xdh{Release+x}{Release+d}{Release+h}
+      #   assert: preedit == "nve4"
+      - send: zvk{Release+z}{Release+v}{Release+k}
+        assert: preedit == "e1"
+      - send: zvm.{Release+z}{Release+v}{Release+m}{Release+period}
+        assert: preedit == "ou4"
+      - send: egul{Release+e}{Release+g}{Release+u}{Release+l}
+        assert: preedit == "pa2"
+      - send: egho{Release+e}{Release+g}{Release+h}{Release+o}
+        assert: preedit == "pai1"
+      - send: egui{Release+e}{Release+g}{Release+u}{Release+i}
+        assert: preedit == "pan1"
+      - send: eg,.{Release+e}{Release+g}{Release+comma}{Release+period}
+        assert: preedit == "pang1"
+      - send: egm/{Release+e}{Release+g}{Release+m}{Release+slash}
+        assert: preedit == "pao3"
+      - send: eg.{Release+e}{Release+g}{Release+period}
+        assert: preedit == "pei4"
+      - send: eghk{Release+e}{Release+g}{Release+h}{Release+k}
+        assert: preedit == "pen4"
+      - send: egy{Release+e}{Release+g}{Release+y}
+        assert: preedit == "peng2"
+      - send: xgl{Release+x}{Release+g}{Release+l}
+        assert: preedit == "pi3"
+      - send: xgo{Release+x}{Release+g}{Release+o}
+        assert: preedit == "pian4"
+      - send: xgkl{Release+x}{Release+g}{Release+k}{Release+l}
+        assert: preedit == "piao4"
+      - send: xgm{Release+x}{Release+g}{Release+m}
+        assert: preedit == "pie3"
+      - send: xgjp{Release+x}{Release+g}{Release+j}{Release+p}
+        assert: preedit == "pin3"
+      - send: xgi{Release+x}{Release+g}{Release+i}
+        assert: preedit == "ping1"
+      - send: egp{Release+e}{Release+g}{Release+p}
+        assert: preedit == "po2"
+      - send: egml{Release+e}{Release+g}{Release+m}{Release+l}
+        assert: preedit == "pou2"
+      - send: egj{Release+e}{Release+g}{Release+j}
+        assert: preedit == "pu4"
+      - send: dfj{Release+d}{Release+f}{Release+j}
+        assert: preedit == "qi4"
+      - send: dfmk{Release+d}{Release+f}{Release+m}{Release+k}
+        assert: preedit == "qia3"
+      - send: df/{Release+d}{Release+f}{Release+slash}
+        assert: preedit == "qian2"
+      - send: df,.{Release+d}{Release+f}{Release+comma}{Release+period}
+        assert: preedit == "qiang1"
+      - send: dfm/{Release+d}{Release+f}{Release+m}{Release+slash}
+        assert: preedit == "qiao3"
+      - send: dfk{Release+d}{Release+f}{Release+k}
+        assert: preedit == "qie1"
+      - send: dfjp{Release+d}{Release+f}{Release+j}{Release+p}
+        assert: preedit == "qin3"
+      - send: dfjk{Release+d}{Release+f}{Release+j}{Release+k}
+        assert: preedit == "qing4"
+      - send: svy{Release+s}{Release+v}{Release+y}
+        assert: preedit == "qiong2"
+      - send: dfup{Release+d}{Release+f}{Release+u}{Release+p}
+        assert: preedit == "qiu3"
+      - send: svu{Release+s}{Release+v}{Release+u}
+        assert: preedit == "qu2"
+      - send: svo{Release+s}{Release+v}{Release+o}
+        assert: preedit == "quan4"
+      - send: svp{Release+s}{Release+v}{Release+p}
+        assert: preedit == "que2"
+      - send: svjl{Release+s}{Release+v}{Release+j}{Release+l}
+        assert: preedit == "qun2"
+      - send: wrm,{Release+w}{Release+r}{Release+m}{Release+comma}
+        assert: preedit == "ran3"
+      - send: wrji{Release+w}{Release+r}{Release+j}{Release+i}
+        assert: preedit == "rang2"
+      - send: wrkl{Release+w}{Release+r}{Release+k}{Release+l}
+        assert: preedit == "rao4"
+      - send: wrh{Release+w}{Release+r}{Release+h}
+        assert: preedit == "re4"
+      - send: wrjl{Release+w}{Release+r}{Release+j}{Release+l}
+        assert: preedit == "ren2"
+      - send: wri{Release+w}{Release+r}{Release+i}
+        assert: preedit == "reng1"
+      - send: wrj{Release+w}{Release+r}{Release+j}
+        assert: preedit == "ri4"
+      - send: qgy{Release+q}{Release+g}{Release+y}
+        assert: preedit == "rong2"
+      - send: wrm.{Release+w}{Release+r}{Release+m}{Release+period}
+        assert: preedit == "rou4"
+      - send: qgu{Release+q}{Release+g}{Release+u}
+        assert: preedit == "ru2"
+      - send: qgul{Release+q}{Release+g}{Release+u}{Release+l}
+        assert: preedit == "rua2"
+      - send: qgm,{Release+q}{Release+g}{Release+m}{Release+comma}
+        assert: preedit == "ruan3"
+      - send: qg.{Release+q}{Release+g}{Release+period}
+        assert: preedit == "rui4"
+      - send: qghk{Release+q}{Release+g}{Release+h}{Release+k}
+        assert: preedit == "run4"
+      - send: qgp{Release+q}{Release+g}{Release+p}
+        assert: preedit == "ruo2"
+      - send: avio{Release+a}{Release+v}{Release+i}{Release+o}
+        assert: preedit == "sa4"
+      - send: avj;{Release+a}{Release+v}{Release+j}{Release+semicolon}
+        assert: preedit == "sai4"
+      - send: avm,{Release+a}{Release+v}{Release+m}{Release+comma}
+        assert: preedit == "san3"
+      - send: avjo{Release+a}{Release+v}{Release+j}{Release+o}
+        assert: preedit == "sang3"
+      - send: avkl{Release+a}{Release+v}{Release+k}{Release+l}
+        assert: preedit == "sao4"
+      - send: avh{Release+a}{Release+v}{Release+h}
+        assert: preedit == "se4"
+      - send: av,{Release+a}{Release+v}{Release+comma}
+        assert: preedit == "sen1"
+      - send: avi{Release+a}{Release+v}{Release+i}
+        assert: preedit == "seng1"
+      - send: sn{Release+s}{Release+n}
+        assert: preedit == "sha1"
+      - send: sj;{Release+s}{Release+j}{Release+semicolon}
+        assert: preedit == "shai4"
+      - send: sm,{Release+s}{Release+m}{Release+comma}
+        assert: preedit == "shan3"
+      - send: suo{Release+s}{Release+u}{Release+o}
+        assert: preedit == "shang4"
+      - send: su;{Release+s}{Release+u}{Release+semicolon}
+        assert: preedit == "shao2"
+      - send: sk{Release+s}{Release+k}
+        assert: preedit == "she1"
+      - send: sm;{Release+s}{Release+m}{Release+semicolon}
+        assert: preedit == "shei2"
+      - send: shk{Release+s}{Release+h}{Release+k}
+        assert: preedit == "shen4"
+      - send: sy{Release+s}{Release+y}
+        assert: preedit == "sheng2"
+      - send: s;{Release+s}{Release+semicolon}
+        assert: preedit == "shi1"
+      - send: sj/{Release+s}{Release+j}{Release+slash}
+        assert: preedit == "shou1"
+      - send: agu{Release+a}{Release+g}{Release+u}
+        assert: preedit == "shu2"
+      - send: agn{Release+a}{Release+g}{Release+n}
+        assert: preedit == "shua1"
+      - send: aghi{Release+a}{Release+g}{Release+h}{Release+i}
+        assert: preedit == "shuai3"
+      - send: agui{Release+a}{Release+g}{Release+u}{Release+i}
+        assert: preedit == "shuan1"
+      - send: agjo{Release+a}{Release+g}{Release+j}{Release+o}
+        assert: preedit == "shuang3"
+      - send: agm;{Release+a}{Release+g}{Release+m}{Release+semicolon}
+        assert: preedit == "shui2"
+      - send: agjp{Release+a}{Release+g}{Release+j}{Release+p}
+        assert: preedit == "shun3"
+      - send: agk{Release+a}{Release+g}{Release+k}
+        assert: preedit == "shuo1"
+      - send: avj{Release+a}{Release+v}{Release+j}
+        assert: preedit == "si4"
+      - send: ari{Release+a}{Release+r}{Release+i}
+        assert: preedit == "song1"
+      - send: avm.{Release+a}{Release+v}{Release+m}{Release+period}
+        assert: preedit == "sou4"
+      - send: arj{Release+a}{Release+r}{Release+j}
+        assert: preedit == "su4"
+      - send: aro{Release+a}{Release+r}{Release+o}
+        assert: preedit == "suan4"
+      - send: arm;{Release+a}{Release+r}{Release+m}{Release+semicolon}
+        assert: preedit == "sui2"
+      - send: ar,{Release+a}{Release+r}{Release+comma}
+        assert: preedit == "sun1"
+      - send: ark{Release+a}{Release+r}{Release+k}
+        assert: preedit == "suo1"
+      - send: afio{Release+a}{Release+f}{Release+i}{Release+o}
+        assert: preedit == "ta4"
+      - send: afho{Release+a}{Release+f}{Release+h}{Release+o}
+        assert: preedit == "tai1"
+      - send: af/{Release+a}{Release+f}{Release+slash}
+        assert: preedit == "tan2"
+      - send: afjo{Release+a}{Release+f}{Release+j}{Release+o}
+        assert: preedit == "tang3"
+      - send: afkl{Release+a}{Release+f}{Release+k}{Release+l}
+        assert: preedit == "tao4"
+      - send: afh{Release+a}{Release+f}{Release+h}
+        assert: preedit == "te4"
+      - send: afuk{Release+a}{Release+f}{Release+u}{Release+k}
+        assert: preedit == "tei1"
+      - send: afy{Release+a}{Release+f}{Release+y}
+        assert: preedit == "teng2"
+      - send: wfl{Release+w}{Release+f}{Release+l}
+        assert: preedit == "ti3"
+      - send: wfo{Release+w}{Release+f}{Release+o}
+        assert: preedit == "tian4"
+      - send: wfm/{Release+w}{Release+f}{Release+m}{Release+slash}
+        assert: preedit == "tiao3"
+      - send: wfk{Release+w}{Release+f}{Release+k}
+        assert: preedit == "tie1"
+      - send: wfh;{Release+w}{Release+f}{Release+h}{Release+semicolon}
+        assert: preedit == "ting3"
+      - send: zfjk{Release+z}{Release+f}{Release+j}{Release+k}
+        assert: preedit == "tong4"
+      - send: afml{Release+a}{Release+f}{Release+m}{Release+l}
+        assert: preedit == "tou2"
+      - send: zfl{Release+z}{Release+f}{Release+l}
+        assert: preedit == "tu3"
+      - send: zf/{Release+z}{Release+f}{Release+slash}
+        assert: preedit == "tuan2"
+      - send: zf.{Release+z}{Release+f}{Release+period}
+        assert: preedit == "tui4"
+      - send: zfhk{Release+z}{Release+f}{Release+h}{Release+k}
+        assert: preedit == "tun4"
+      - send: zfm{Release+z}{Release+f}{Release+m}
+        assert: preedit == "tuo3"
+      - send: emk{Release+e}{Release+m}{Release+k}
+        assert: preedit == "wa3"
+      - send: eho{Release+e}{Release+h}{Release+o}
+        assert: preedit == "wai1"
+      - send: eo{Release+e}{Release+o}
+        assert: preedit == "wan4"
+      - send: euo{Release+e}{Release+u}{Release+o}
+        assert: preedit == "wang4"
+      - send: ej,{Release+e}{Release+j}{Release+comma}
+        assert: preedit == "wei3"
+      - send: ehk{Release+e}{Release+h}{Release+k}
+        assert: preedit == "wen4"
+      - send: ejk{Release+e}{Release+j}{Release+k}
+        assert: preedit == "weng4"
+      - send: em{Release+e}{Release+m}
+        assert: preedit == "wo3"
+      - send: el{Release+e}{Release+l}
+        assert: preedit == "wu3"
+      - send: ru{Release+r}{Release+u}
+        assert: preedit == "xi2"
+      - send: rio{Release+r}{Release+i}{Release+o}
+        assert: preedit == "xia4"
+      - send: rm,{Release+r}{Release+m}{Release+comma}
+        assert: preedit == "xian3"
+      - send: rji{Release+r}{Release+j}{Release+i}
+        assert: preedit == "xiang2"
+      - send: rkl{Release+r}{Release+k}{Release+l}
+        assert: preedit == "xiao4"
+      - send: rp{Release+r}{Release+p}
+        assert: preedit == "xie2"
+      - send: r,{Release+r}{Release+comma}
+        assert: preedit == "xin1"
+      - send: ri{Release+r}{Release+i}
+        assert: preedit == "xing1"
+      - send: dry{Release+d}{Release+r}{Release+y}
+        assert: preedit == "xiong2"
+      - send: rm.{Release+r}{Release+m}{Release+period}
+        assert: preedit == "xiu4"
+      - send: drj{Release+d}{Release+r}{Release+j}
+        assert: preedit == "xu4"
+      - send: drui{Release+d}{Release+r}{Release+u}{Release+i}
+        assert: preedit == "xuan1"
+      - send: drm{Release+d}{Release+r}{Release+m}
+        assert: preedit == "xue3"
+      - send: dr,{Release+d}{Release+r}{Release+comma}
+        assert: preedit == "xun1"
+      - send: dmk{Release+d}{Release+m}{Release+k}
+        assert: preedit == "ya3"
+      - send: do{Release+d}{Release+o}
+        assert: preedit == "yan4"
+      - send: dji{Release+d}{Release+j}{Release+i}
+        assert: preedit == "yang2"
+      - send: dm/{Release+d}{Release+m}{Release+slash}
+        assert: preedit == "yao3"
+      - send: dk{Release+d}{Release+k}
+        assert: preedit == "ye1"
+      - send: dj{Release+d}{Release+j}
+        assert: preedit == "yi4"
+      - send: dhk{Release+d}{Release+h}{Release+k}
+        assert: preedit == "yin4"
+      - send: di{Release+d}{Release+i}
+        assert: preedit == "ying1"
+      - send: dk{Release+d}{Release+k}
+        assert: preedit == "ye1"
+      - send: sdy{Release+s}{Release+d}{Release+y}
+        assert: preedit == "yong2"
+      - send: dup{Release+d}{Release+u}{Release+p}
+        assert: preedit == "you3"
+      - send: sdj{Release+s}{Release+d}{Release+j}
+        assert: preedit == "yu4"
+      - send: sdm,{Release+s}{Release+d}{Release+m}{Release+comma}
+        assert: preedit == "yuan3"
+      - send: sdk{Release+s}{Release+d}{Release+k}
+        assert: preedit == "yue1"
+      - send: sdjp{Release+s}{Release+d}{Release+j}{Release+p}
+        assert: preedit == "yun3"
+      - send: qul{Release+q}{Release+u}{Release+l}
+        assert: preedit == "za2"
+      - send: qho{Release+q}{Release+h}{Release+o}
+        assert: preedit == "zai1"
+      - send: qui{Release+q}{Release+u}{Release+i}
+        assert: preedit == "zan1"
+      - send: qjo{Release+q}{Release+j}{Release+o}
+        assert: preedit == "zang3"
+      - send: qj.{Release+q}{Release+j}{Release+period}
+        assert: preedit == "zao1"
+      - send: qh{Release+q}{Release+h}
+        assert: preedit == "ze4"
+      - send: qm;{Release+q}{Release+m}{Release+semicolon}
+        assert: preedit == "zei2"
+      - send: qhk{Release+q}{Release+h}{Release+k}
+        assert: preedit == "zen4"
+      - send: qi{Release+q}{Release+i}
+        assert: preedit == "zeng1"
+      - send: gmk{Release+g}{Release+m}{Release+k}
+        assert: preedit == "zha3"
+      - send: gho{Release+g}{Release+h}{Release+o}
+        assert: preedit == "zhai1"
+      - send: go{Release+g}{Release+o}
+        assert: preedit == "zhan4"
+      - send: gjo{Release+g}{Release+j}{Release+o}
+        assert: preedit == "zhang3"
+      - send: gkl{Release+g}{Release+k}{Release+l}
+        assert: preedit == "zhao4"
+      - send: gm{Release+g}{Release+m}
+        assert: preedit == "zhe3"
+      - send: g.{Release+g}{Release+period}
+        assert: preedit == "zhei4"
+      - send: ghk{Release+g}{Release+h}{Release+k}
+        assert: preedit == "zhen4"
+      - send: gi{Release+g}{Release+i}
+        assert: preedit == "zheng1"
+      - send: gu{Release+g}{Release+u}
+        assert: preedit == "zhi2"
+      - send: wei{Release+w}{Release+e}{Release+i}
+        assert: preedit == "zhong1"
+      - send: gm.{Release+g}{Release+m}{Release+period}
+        assert: preedit == "zhou4"
+      - send: we;{Release+w}{Release+e}{Release+semicolon}
+        assert: preedit == "zhu1"
+      - send: wemk{Release+w}{Release+e}{Release+m}{Release+k}
+        assert: preedit == "zhua3"
+      - send: wej;{Release+w}{Release+e}{Release+j}{Release+semicolon}
+        assert: preedit == "zhuai4"
+      - send: weo{Release+w}{Release+e}{Release+o}
+        assert: preedit == "zhuan4"
+      - send: we,.{Release+w}{Release+e}{Release+comma}{Release+period}
+        assert: preedit == "zhuang1"
+      - send: we.{Release+w}{Release+e}{Release+period}
+        assert: preedit == "zhui4"
+      - send: we,{Release+w}{Release+e}{Release+comma}
+        assert: preedit == "zhun1"
+      - send: wek{Release+w}{Release+e}{Release+k}
+        assert: preedit == "zhuo1"
+      - send: ql{Release+q}{Release+l}
+        assert: preedit == "zi3"
+      - send: efjk{Release+e}{Release+f}{Release+j}{Release+k}
+        assert: preedit == "zong4"
+      - send: qj/{Release+q}{Release+j}{Release+slash}
+        assert: preedit == "zou1"
+      - send: ef;{Release+e}{Release+f}{Release+semicolon}
+        assert: preedit == "zu1"
+      - send: efo{Release+e}{Release+f}{Release+o}
+        assert: preedit == "zuan4"
+      - send: efj,{Release+e}{Release+f}{Release+j}{Release+comma}
+        assert: preedit == "zui3"
+      - send: ef,{Release+e}{Release+f}{Release+comma}
+        assert: preedit == "zun1"
+  sentence:
+    options:
+      popping: false
+    tests:
+      - send: sgi{Release+s}{Release+g}{Release+i}drm{Release+d}{Release+r}{Release+m}
+        assert: cand[1].text == "冰雪"
+      - send: sgi{Release+s}{Release+g}{Release+i}drm{Release+d}{Release+r}{Release+m}f{Release+f}
+        assert: commit == "冰雪的"
+  popping:
+    tests:
+      # 固顶词
+      - send: f{Release+f}
+        assert: commit == "的"
+      # 顶功
+      - send: sgi{Release+s}{Release+g}{Release+i}drm{Release+d}{Release+r}{Release+m}
+        assert: commit == "冰" and cand[1].text == "雪"
+      # 辅助码
+      - send: dj{Release+d}{Release+j}f {Release+f}{Release+space}
+        assert: cand[1].text == "奕"
+      - send: dj{Release+d}{Release+j}k {Release+k}{Release+space}
+        assert: cand[1].text == "抑"
+      # 词
+      - send: dj{Release+d}{Release+j}dj {Release+d}{Release+j}{Release+space}
+        assert: has("意义")
+      # 第一击带空格容错
+      - send: dj {Release+d}{Release+j}{Release+space}
+        assert: has("亿")

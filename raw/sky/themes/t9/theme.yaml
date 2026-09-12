@@ -1,0 +1,21 @@
+# Rime settings
+# vim: set sw=2 sts=2 et:
+# encoding: utf-8
+
+__include: ../../../../themes/t9/theme:/
+
+#键盘布局
+__patch:
+  preset_keyboards/default/keys/@13/swipe_down: grave
+  preset_keyboards/default/keys/@17/swipe_down: Tab
+
+  preset_keyboards/default_sm_md/keys/@13/swipe_down: grave
+  preset_keyboards/default_sm_md/keys/@17/swipe_down: Tab
+
+  preset_keyboards/english/keys/@23/swipe_down: grave
+  preset_keyboards/english/keys/@35/swipe_down: Tab
+
+  preset_keyboards/english_sm_md/keys/@23/swipe_down: grave
+  preset_keyboards/english_sm_md/keys/@35/swipe_down: Tab
+
+#  preset_keys/eisu_toggle_schema_en/option/=: # 关闭easy_en

@@ -1,0 +1,11 @@
+# Rime schema
+# encoding: utf-8
+
+schema:
+  schema_id: snow_lingpin
+  name: 冰雪零拼
+  version: "0.3"
+  author:
+    - 谭淞宸 <i@tansongchen.com>
+  description: |
+    用于配合手机键盘切换使用

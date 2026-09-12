@@ -1,0 +1,187 @@
+# Rime schema
+# encoding: utf-8
+
+__include: snow_pinyin.schema.yaml:/
+
+schema:
+  schema_id: snow_sanpin
+  name: 冰雪三拼
+  version: "0.3"
+  author:
+    - 谭淞宸 <i@tansongchen.com>
+  description: |
+    带调拼音词顶功输入方案
+    基于键道双拼改编
+  dependencies:
+    - snow_pinyin
+    - snow_bihua
+
+engine:
+  processors:
+    - ascii_composer
+    - recognizer
+    - lua_processor@*snow.shape_processor
+    - key_binder
+    - lua_processor@*snow.select_character
+    - lua_processor@*snow.popping
+    - speller
+    - punctuator
+    - selector
+    - navigator
+    - express_editor
+  segmentors:
+    - ascii_segmentor
+    - matcher
+    - abc_segmentor
+    - affix_segmentor@stroke
+    - affix_segmentor@pinyin
+    - punct_segmentor
+    - fallback_segmentor
+  translators:
+    - punct_translator
+    - lua_translator@*snow.table_like*t12
+    - lua_translator@*snow.table_like*jianpin
+    - table_translator@stroke
+    - script_translator@pinyin
+    - lua_translator@*snow.datetime
+    - lua_translator@*snow.number
+    - lua_translator@*snow.calculator
+    - history_translator
+  filters:
+    - reverse_lookup_filter@lookup_pinyin
+    - reverse_lookup_filter@lookup_sanpin
+    - lua_filter@*snow.fix
+    - lua_filter@*snow.shape_filter
+    - lua_filter@*snow.postpone
+    - uniquifier
+    - simplifier
+    - lua_filter@*snow.hint
+
+sanpin_algebra:
+  # 全拼还原
+  - xform/(?<=[jqxy])u(e?\d)/v$1/
+  - xform/(^| )([aoe]|[mn]g?\d)/$1X$2/
+  # 声母飞键
+  - xform/zh(an|ang|ei|en|eng|u|un)(?=\d)/Q$1/
+  - derive/zh(ai|ao|e)(?=\d)/Q$1/
+  - xform/zh/F/
+  - xform/ch(ai|an|ang|ei|en|eng|u|un)(?=\d)/J$1/
+  - derive/ch(ao|e)(?=\d)/J$1/
+  - xform/ch/W/
+  - xform/sh/E/
+  # 韵母
+  - derive/uang(?=\d)/M/
+  - xform/[iu]ang(?=\d)/X/
+  - xform/i?ong(?=\d)/Y/
+  - xform/ang(?=\d)/P/
+  - xform/(ing|uai)(?=\d)/G/
+  - xform/e?ng(?=\d)/R/
+  - xform/(ei|un)(?=\d)/W/
+  - xform/en(?=\d)/N/
+  - xform/uan(?=\d)/T/
+  - xform/ian(?=\d)/M/
+  - xform/an(?=\d)/F/
+  - xform/(iu|ua)(?=\d)/Q/
+  - xform/(ie|ou)(?=\d)/D/
+  - xform/(ai|ve|ue)(?=\d)/H/
+  - xform/iao(?=\d)/C/
+  - xform/ao(?=\d)/Z/
+  - xform/(in|ui)(?=\d)/B/
+  - xform/(u?o|v)(?=\d)/L/
+  - xform/i(?=\d)/K/
+  - xform/i?a(?=\d)/S/
+  - xform/(er|u)(?=\d)/J/
+  - xlit/QWERTYUIOPASDFGHJKLZXCVBNM/qwertyuiopasdfghjklzxcvbnm/
+  # 声调
+  - xlit/12345/viuoa/
+
+jianpin:
+  dictionary: snow_pinyin
+  prism: snow_jiandao_jianpin
+  packs:
+    - snow_pinyin.base
+    - snow_pinyin.ext
+    - snow_pinyin.tencent
+    - snow_pinyin.user
+
+jianpin2:
+  dictionary: snow_pinyin
+  prism: snow_jiandao_jianpin
+  packs:
+    - snow_pinyin.base
+    - snow_pinyin.ext
+    - snow_pinyin.tencent
+    - snow_pinyin.user
+
+speller:
+  alphabet: bpmfdtnlgkhjqxzcsrwyeviuoa
+  initials: bpmfdtnlgkhjqxzcsrwye
+  delimiter: " "
+  shape:
+    - match: "[bpmfdtnlgkhjqxzcsrywe][a-z][viuoa]?"
+      accept: "1"
+    - match_shape: "1"
+      accept: "[a-z]"
+    - match: "[bpmfdtnlgkhjqxzcsrywe][a-z][viuoa]"
+      accept: "[viuoa]"
+    - match_shape: ".+"
+      accept: "[viuoa]"
+  popping:
+    # 630
+    - when: popping
+      match: "[bpmfdtnlgkhjqxzcsrywe][viuoa]+"
+      accept: "[bpmfdtnlgkhjqxzcsrywe]"
+    # 单字和三字词
+    - when: popping
+      match: "[bpmfdtnlgkhjqxzcsrywe]{2,3}[viuoa]+"
+      accept: "[bpmfdtnlgkhjqxzcsrywe]"
+    # 四字词和多字词
+    - when: popping
+      match: "[bpmfdtnlgkhjqxzcsrywe]{4,}[viuoa]*"
+      accept: "[bpmfdtnlgkhjqxzcsrywe]"
+    # 大写参与编码
+    - when: popping
+      match: "[bpmfdtnlgkhjqxzcsrywe][a-z]{3,}"
+      accept: "[BPMFDTNLGKHJQXZCSRYWE]"
+      strategy: append
+    # 顶标点
+    - match: ".*[^a-z0-9]"
+      accept: "[bpmfdtnlgkhjqxzcsrywe]"
+    # 标点大写顶
+    - match: ".*[a-z0-9]"
+      accept: "[^a-z0-9 ]"
+  algebra:
+    __include: /sanpin_algebra
+    __append:
+      - abbrev/^([a-z]).+$/$1/ # 简拼
+      - derive/[viuoa]$// # 无声调
+
+lookup_sanpin:
+  tags: [pinyin]
+  overwrite_comment: true
+  dictionary: snow_pinyin
+  comment_format:
+    __include: /sanpin_algebra
+
+__patch:
+  - patch
+  - snow_sanpin.custom:/patch?
+
+patch:
+  switches/+:
+    - options: [fluid, popping]
+      states: [整句, 四顶]
+      reset: 1
+    - name: buffered
+      states: [结束, 缓冲]
+      reset: 0
+  translator/prism: snow_sanpin
+  translator/preedit_format: null
+  translator/t1_pattern: "[bpmfdtnlgkhjqxzcsrywe][a-z]?[viuoa]?"
+  translator/t2_pattern: "[bpmfdtnlgkhjqxzcsrywe]{4}[viuoa]{0,2}"
+  translator/jianpin_pattern: "[bpmfdtnlgkhjqxzcsrywe]{3,}[viuoa]{0,3}"
+  key_binder/bindings/+:
+    - { when: always, accept: "Control+j", toggle: buffered }
+    - { when: always, accept: v, toggle: buffered }
+    - { when: composing, accept: v, send: v }
+  menu/alternative_select_keys: null
