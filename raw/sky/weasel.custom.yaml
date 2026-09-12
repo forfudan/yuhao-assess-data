@@ -1,0 +1,6 @@
+# Rime default custom settings
+# vim: set sw=2 sts=2 et:
+# encoding: utf-8
+
+patch:
+  style/font_face: SimSun-ExtG

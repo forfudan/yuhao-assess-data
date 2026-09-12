@@ -1,0 +1,36 @@
+# Rime schema
+# encoding: utf-8
+
+__include: pinyin_simp.schema:/
+schema:
+  schema_id: &schema pinyin_simp9
+  name: 袖珍简化字拼音9键
+
+speller:
+  alphabet: 23456789
+  algebra/+:
+    - xform/[abc]/2/
+    - xform/[def]/3/
+    - xform/[ghi]/4/
+    - xform/[jkl]/5/
+    - xform/[mno]/6/
+    - xform/[pqrs]/7/
+    - xform/[tuv]/8/
+    - xform/[wxyz]/9/
+
+translator:
+  prism: *schema
+  preedit_format:
+    - xlit/23456789/adgjmptw/
+
+reverse_lookup:
+  prism: xtroke9
+  comment_format/=:
+
+key_binder:
+  bindings:
+    - {when: has_menu, accept: 1, send: apostrophe} # 分词
+
+recognizer:
+  patterns:
+    reverse_lookup: "`[1-5]*'?"

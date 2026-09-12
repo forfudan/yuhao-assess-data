@@ -1,0 +1,26 @@
+# Rime schema
+# vim: set sw=2 sts=2 et:
+# encoding: utf-8
+
+__include: xtroke.schema:/
+schema:
+  schema_id: &schema xtroke9
+  name: 超级笔画9键
+
+speller:
+  alphabet: 12345
+  algebra/=:
+
+translator:
+  prism: *schema
+  comment_format/=:
+
+reverse_lookup:
+  prism: pinyin_simp9
+  preedit_format/+:
+    - xlit/23456789/adgjmptw/
+  comment_format/=:
+
+recognizer:
+  patterns:
+    reverse_lookup: "`[2-9]*'?"

@@ -1,0 +1,87 @@
+# Rime schema
+# encoding: utf-8
+
+__include: snow_pinyin.schema.yaml:/
+
+schema:
+  schema_id: snow_yingpin
+  name: 冰雪英拼
+  version: "0.3.0"
+  author:
+    - 谭淞宸 <i@tansongchen.com>
+  description: |
+    顶功英文输入方案
+
+engine:
+  processors:
+    - ascii_composer
+    - recognizer
+    - key_binder
+    - lua_processor@*snow.popping
+    - speller
+    - punctuator
+    - selector
+    - navigator
+    - express_editor
+  segmentors:
+    - ascii_segmentor
+    - matcher
+    - abc_segmentor
+    - punct_segmentor
+    - fallback_segmentor
+  translators:
+    - punct_translator
+    - lua_translator@*snow.yingpin
+    - history_translator
+  filters:
+    - uniquifier
+    - simplifier
+    - lua_filter@*snow.postpone
+
+speller:
+  alphabet: bpmfdtnlgkhjqxzcsrwyvaeiou
+  initials: bpmfdtnlgkhjqxzcsrwyv
+  delimiter: " "
+  popping:
+    - when: popping
+      match: "([bpmfdtnlgkhjqxzcsrwyv]+[aeiou]+|[bpmfdtnlgkhjqxzcsrwyv]{4,})"
+      accept: "[bpmfdtnlgkhjqxzcsrwyv]"
+    # 大写参与编码
+    - when: popping
+      match: "([bpmfdtnlgkhjqxzcsrywv][aeuio]{0,4}){4,}"
+      accept: "[BPMFDTNLGKHJQXZCSRYWV]"
+      strategy: append
+    # 顶标点
+    - match: ".*[^a-zA-Z0-9]"
+      accept: "[bpmfdtnlgkhjqxzcsrwyv]"
+    # 标点顶
+    - match: ".*[a-zA-Z0-9]"
+      accept: "[^a-zA-Z0-9]"
+  algebra:
+    # 添加零声母
+    - xform/^a/j/
+    - xform/^e/q/
+    - xform/^o/x/
+    - xform/^i/k/
+    - xform/^u/z/
+
+translator:
+  dictionary: snow_yingpin
+  enable_completion: true
+  enable_encoder: false
+  enable_sentence: false
+  enable_user_dict: false
+  encode_commit_history: false
+  preedit_format: null
+
+__patch:
+  - patch
+  - snow_yingpin.custom:/patch?
+
+patch:
+  switches/+:
+    - name: popping
+      states: [整句, 顶功]
+      reset: 1
+  translator/preedit_format: null
+  menu/alternative_select_keys: "1234567890"

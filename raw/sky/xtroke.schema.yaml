@@ -1,0 +1,133 @@
+# Rime schema
+# vim: set sw=2 sts=2 et:
+# encoding: utf-8
+#
+# Xtroke - 超级笔画
+#
+# QQ群：631302614
+# 主页：http://soongsky.com/sky/
+# 网盘：http://tianma.ysepan.com/
+
+schema:
+  schema_id: &schema xtroke
+  name: 超级笔画
+  version: 1.0.0
+  author:
+    - 宋 天
+  description: |
+    笔画输入法
+    包含汉字基本集CJK、扩展集CJK-A~J全汉字、西夏文等，编码兼顾大陆、港台字形
+  dependencies:
+    - &reverse pinyin_simp # 拼音反查采用袖珍简化字拼音（pinyin-simp）方案，可根据需要替换其他方案
+
+switches:
+  - name: ascii_mode
+    states: [中文, 英文]
+  - name: full_shape
+    states: [半角, 全角]
+  - name: ascii_punct
+    states: ["。，", "．，"]
+  - name: extended_charset
+    states: [常用, 超集]
+  - options: [none, block, ucs]
+    states: [不显, 区段, 码位]
+  - name: trad # 打简出繁
+    states: [原始, 繁体]
+
+engine:
+  processors:
+    - ascii_composer
+    - recognizer
+    - key_binder
+    - speller
+    - punctuator
+    - selector
+    - navigator
+    - express_editor
+  segmentors:
+    - ascii_segmentor
+    - matcher
+    - abc_segmentor
+    - punct_segmentor
+    - fallback_segmentor
+  translators:
+    - punct_translator
+    - table_translator
+    - reverse_lookup_translator # 拼音反查
+  filters:
+    - simplifier # 打简出繁
+    - simplifier@block # 区段
+    - simplifier@ucs # 码位
+    - uniquifier
+
+speller:
+  algebra: &stroke
+    - xlit/12345/hspnz/ # 横竖撇捺折
+
+translator:
+  dictionary: *schema
+  enable_charset_filter: true # 字集过滤
+  enable_sentence: false # 关闭自动造句
+  enable_encoder: false # 关闭自动造词
+  encode_commit_history: false # 关闭对已上屏自动成词
+  enable_user_dict: false # 关闭用户词典和字频调整
+  enable_completion: true # 编码逐键提示
+  comment_format: *stroke
+
+reverse_lookup: # 拼音反查
+  dictionary: *reverse
+  comment_format: *stroke
+  prefix: "`" # 前缀
+  suffix: "'" # 后缀
+  tips: 〔拼音反查〕
+
+simplifier: # 打简出繁
+  option_name: trad
+  opencc_config: s2t.json # 简体转繁体，可根据需要替换s2hk.json、s2tw.json、s2twp.json等
+  tips: all # 提示转换之前的字
+
+block: # 区段
+  option_name: block
+  opencc_config: block.json
+  tips: char # 仅单字
+  show_in_comment: true
+  comment_format:
+    - xform/^/[/
+    - xform/$/]/
+
+ucs: # 码位
+  option_name: ucs
+  opencc_config: ucs.json
+  tips: char # 仅单字
+  show_in_comment: true
+  comment_format:
+    - xform/^/[/
+    - xform/$/]/
+
+punctuator:
+#  import_preset: default
+  import_preset: symbols
+
+key_binder:
+  import_preset: default
+  bindings:
+    - {when: has_menu, accept: comma, send: comma} # 恢复逗号顶字
+    - {when: has_menu, accept: period, send: period} # 恢复句号顶字
+    - {when: has_menu, accept: semicolon, send: 2} # 分号次选
+    - {when: has_menu, accept: apostrophe, send: 3} # 引号三选
+    - {when: always, accept: Shift+space, toggle: full_shape} # 全角
+    - {when: always, accept: Control+period, toggle: ascii_punct} # 标点
+    - {when: has_menu, accept: slash, toggle: block} # 区段、码位
+    - {when: always, accept: Control+Shift+C, toggle: block} # 区段、码位
+    - {when: always, accept: Control+Shift+F, toggle: trad} # 打简出繁
+    - {when: always, accept: KP_1, send: h} # 小键盘
+    - {when: always, accept: KP_2, send: s}
+    - {when: always, accept: KP_3, send: p}
+    - {when: always, accept: KP_4, send: n}
+    - {when: always, accept: KP_5, send: z}
+
+recognizer:
+  import_preset: default
+  patterns:
+    punct: "^/([0-9]0?|[A-Za-z]+)$"
+    reverse_lookup: "`[a-z]*'?" # 拼音反查

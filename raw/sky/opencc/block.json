@@ -1,0 +1,16 @@
+{
+  "name": "Block",
+  "segmentation": {
+    "type": "mmseg",
+    "dict": {
+      "type": "text",
+      "file": "block.txt"
+    }
+  },
+  "conversion_chain": [{
+    "dict": {
+      "type": "text",
+      "file": "block.txt"
+    }
+  }]
+}

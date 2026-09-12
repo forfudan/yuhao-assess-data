@@ -1,0 +1,197 @@
+# Rime schema
+# encoding: utf-8
+
+__include: snow_pinyin.schema.yaml:/
+
+schema:
+  schema_id: snow_sipin
+  name: 冰雪四拼
+  version: "0.3"
+  author:
+    - 谭淞宸 <i@tansongchen.com>
+  description: |
+    带调拼音词顶功输入方案
+  dependencies:
+    - snow_pinyin
+    - snow_bihua
+    - snow_bushou
+
+engine:
+  processors:
+    - ascii_composer
+    - recognizer
+    - lua_processor@*snow.user_dict
+    - lua_processor@*snow.shape_processor
+    - key_binder
+    - lua_processor@*snow.abbreviation
+    - lua_processor@*snow.select_character
+    - lua_processor@*snow.editor
+    - lua_processor@*snow.popping
+    - speller
+    - punctuator
+    - selector
+    - navigator
+    - express_editor
+  segmentors:
+    - ascii_segmentor
+    - matcher
+    - abc_segmentor
+    - affix_segmentor@stroke
+    - affix_segmentor@pinyin
+    - punct_segmentor
+    - fallback_segmentor
+  translators:
+    - punct_translator
+    - script_translator
+    - table_translator@stroke
+    - script_translator@pinyin
+    - lua_translator@*snow.datetime
+    - lua_translator@*snow.number
+    - lua_translator@*snow.calculator
+    - history_translator
+  filters:
+    - reverse_lookup_filter@lookup_pinyin
+    - reverse_lookup_filter@lookup_sipin
+    - lua_filter@*snow.fix
+    - lua_filter@*snow.postpone
+    - uniquifier
+    - lua_filter@*snow.shape_filter
+    - simplifier
+    - lua_filter@*snow.special
+
+sipin_algebra:
+  # 无理音节
+  - derive/san1/he3/ # 三
+  - derive/wu3/gu2/ # 五
+  - derive/ri4/ri1/ # 日
+  # 还原
+  - xform/(^| )(h?)([mn]g?\d)/$1$2e$3/
+  - xform/(^| )wu?/$1u/
+  - xform/(^| )yu/$1ü/
+  - xform/(^| )yi?/$1i/
+  - xform/((?<=[jqx])u|(?<=[nl])v)/ü/
+  - xform/iu/iou/
+  - xform/u([in])/ue$1/
+  - xform/ao/au/
+  - xlit/ê/e/
+  # 声码
+  - xform/zh/w/
+  - xform/ch/y/
+  - xform/sh/v/
+  - xform/(^| )(?=[aoe])/$1r/
+  - xform/(^| )(?=i)/$1f/
+  - xform/(^| )(?=u)/$1s/
+  - xform/(^| )(?=ü)/$1k/
+  # 韵头
+  - xform/ia/u/
+  - xform/ua/i/
+  - xform/üa/o/
+  - xform/ie/e/
+  - xform/ue/u/
+  - xform/üe/o/
+  - xform/io/o/
+  - xform/uo/o/
+  - xform/er/i/
+  - xform/ü/a/
+  # 韵尾
+  - xform/ng(?=\d)/e/
+  - xform/n(?=\d)/o/
+  - xform/m(?=\d)/a/
+  # 声调
+  - xlit/12345/ieuao/
+
+speller:
+  alphabet: bpmfdtnlgkhjqxzcsrwyvaeiou
+  initials: bpmfdtnlgkhjqxzcsrwyv
+  delimiter: " "
+  shape:
+    - match: "[bpmfdtnlgkhjqxzcsrywv][aeiou]{0,3}"
+      accept: "1"
+    - match_shape: "1"
+      accept: "[a-z]"
+    - match: "[bpmfdtnlgkhjqxzcsrywv][aeiou]{3}"
+      accept: "[aeiou]"
+    - match_shape: ".+"
+      accept: "[aeiou]"
+  editor:
+    accept: "[aeiou]"
+    match: ".+[bpmfdtnlgkhjqxzcsrywv][aeiou]{2}"
+  popping:
+    # 单字、二字词、三字词
+    - when: popping
+      match: "([bpmfdtnlgkhjqxzcsrywv][aeuio]{0,4}){1,3}[aeiou]+"
+      accept: "[bpmfdtnlgkhjqxzcsrywv]"
+    # 单字有辅助码
+    - when: popping
+      match: "([bpmfdtnlgkhjqxzcsrywv][aeuio]{0,4})([aeiou]+|1[bpmfdtnlgkhjqxzcsrywv][aeiou]+)"
+      accept: "[bpmfdtnlgkhjqxzcsrywv]"
+    # 四字词和多字词
+    - when: popping
+      match: "([bpmfdtnlgkhjqxzcsrywv][aeuio]{0,4}){4,}"
+      accept: "[bpmfdtnlgkhjqxzcsrywv]"
+    # 大写参与编码
+    - when: popping
+      match: "([bpmfdtnlgkhjqxzcsrywv][aeuio]{0,4}){4,}"
+      accept: "[BPMFDTNLGKHJQXZCSRYWV]"
+      strategy: append
+    # 顶标点
+    - match: ".*[^a-z0-9]"
+      accept: "[bpmfdtnlgkhjqxzcsrywv]"
+    # 标点大写顶
+    - match: ".*[a-z0-9;']"
+      accept: "[^a-z0-9;' ]"
+  algebra:
+    __include: /sipin_algebra
+    __append:
+      # 补码
+      - derive/^([a-z]{3})$/$1o/
+      # 辅音字母补 oo
+      - xform/~{1,2}([bpmfdtnlgkhjqxzcsrywv])/$1oo/
+      # 元音字母补 se
+      - xform/~{1,2}([aeiou])/se$1/
+      # 简拼及无声调的全拼
+      - abbrev/^([a-z]).+$/$1/
+      - derive/[aeiou]$//
+      # 字词模式下的简码；整句模式下应注释掉以提升准确度
+      - derive/^([a-z]{2}).+$/$1/
+
+lookup_sipin:
+  tags: [pinyin]
+  overwrite_comment: true
+  dictionary: snow_pinyin
+  comment_format:
+    __include: /sipin_algebra
+
+__patch:
+  - patch
+  - snow_sipin.custom:/patch?
+
+patch:
+  switches/+:
+    - name: popping
+      states: [整句, 顶功]
+      reset: 1
+    - name: buffered
+      states: [结束, 缓冲]
+      reset: 0
+  translator/prism: snow_sipin
+  translator/preedit_format: null
+  translator/enable_schema_user_dict: true
+  translator/shape_elements: snow_bushou
+  translator/shape_mapping: "radical_sipin.txt"
+  punctuator/half_shape/+:
+    ";": 的
+    "|": ；
+    "/": 了
+    "\\": 、
+  key_binder/bindings/+:
+    # 定位
+    - { when: has_menu, accept: 1, send_sequence: "{Shift+Right}" }
+    - { when: has_menu, accept: 4, send_sequence: "{Shift+Right}{Shift+Right}" }
+    - { when: has_menu, accept: 5, send_sequence: "{Shift+Right}{Shift+Right}{Shift+Right}" }
+    - { when: has_menu, accept: 6, send_sequence: "{Shift+Right}{Shift+Right}{Shift+Right}{Shift+Right}" }
+    - { when: has_menu, accept: 7, send_sequence: "{End}" }
+    - { when: always, accept: "Control+j", toggle: buffered }
+    - { when: always, accept: e, toggle: buffered }
+    - { when: composing, accept: e, send: e }
+  menu/alternative_select_keys: "_23890"

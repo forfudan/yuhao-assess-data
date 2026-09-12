@@ -1,0 +1,72 @@
+schema: snow_sipin
+source_dir: ..
+script: |
+  function has(something)
+    for _, v in ipairs(cand) do
+      if v.text == something then
+        return true
+      end
+    end
+    return false
+  end
+deploy:
+  sentence:
+    options:
+      popping: false
+    tests:
+      - send: bieixou
+        assert: cand[1].text == "冰雪"
+  popping:
+    tests:
+      # 组词规则
+      - send: biei
+        assert: has("冰")
+      - send: bxouie
+        assert: has("冰雪")
+      - send: vrfau
+        assert: has("输入法")
+      - send: ymxsie
+        assert: has("充满希望")
+      - send: wsvrF
+        assert: has("中文输入法")
+      - send: whrmGHG
+        assert: has("中华人民共和国")
+      # 固顶词
+      - send: d
+        assert: cand[1].text == "都"
+      - send: vu
+        assert: cand[1].text == "数"
+      - send: jie
+        assert: cand[1].text == "及"
+      - send: xq
+        assert: cand[1].text == "下去"
+      # 首选后置
+      - send: jieo
+        assert: cand[2].text == "及"
+      # 顶功
+      - send: fisu
+        assert: commit == "以" and cand[1].text == "为"
+      - send: xsin
+        assert: commit == "希望" and cand[1].text == "你"
+      - send: mmmmmm
+        assert: commit == "密密麻麻" and cand[1].text == "慢慢"
+      # 动态码长
+      - send: "fiaoeei fiao"
+        assert: cand[1].text == "玴"
+      - send: "bxoui bxo"
+        assert: cand[1].text == "冰雪"
+      # 自动造词
+      - send: "spioia22spi"
+        assert: cand[1].text == "四拼"
+      # 缓冲造词
+      - send: "ekr qz  krqz"
+        assert: cand[1].text == "可爱裙子"
+  # 无理音节
+  special:
+    patch:
+      speller/force_special: true
+    tests:
+      - send: "heu"
+        assert: cand[1].text == "三"
+      - send: "sao"
+        assert: not has("三")

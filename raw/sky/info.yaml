@@ -1,0 +1,24 @@
+# Rime settings
+# vim: set sw=2 sts=2 et:
+# encoding: utf-8
+
+name: 天码
+author: 宋 天
+version: 1.0.0
+description: 天码输入法
+
+# 支持的设备。有指定的只取指定的，没指定的取全部
+supported_devices:
+  pc: [sky, sky_han, sky_tc, pinyin_simp, terra_pinyin, xtroke]
+# 方案使用主题
+use_theme:
+  # 如果没有自定义主题，则使用默认主题.
+  # 右边的值是主题的目录名，也可以是方案下的主题名。需要绝对路径。
+  #例如: 在方案目录下，rime_ice/themes/default 是默认主题。
+  # 在主题目录下，themes/default 是自定义主题。
+  default: sky/themes/default
+  # 自定义主题
+  custom:
+    # 自定义主题的名称，路径同上。
+    pinyin_simp9: sky/themes/t9
+    xtroke9: sky/themes/t9s

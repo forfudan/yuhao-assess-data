@@ -1,0 +1,150 @@
+# Rime schema
+# encoding: utf-8
+
+__include: snow_pinyin.schema.yaml:/
+
+schema:
+  schema_id: snow_jiandao
+  name: 冰雪键道
+  version: "0.3"
+  author:
+    - 吅吅大山
+    - 谭淞宸 <i@tansongchen.com>
+  description: |
+    单字三码起顶、词组四码起顶的双拼词顶功方案
+  dependencies:
+    - snow_pinyin
+    - snow_jiandao_bihua
+    - snow_jiandao_jianpin
+    - snow_jiandao_chaifen
+
+engine:
+  processors:
+    - ascii_composer
+    - lua_processor@*snow.popping
+    - recognizer
+    - lua_processor@*snow.user_dict
+    - lua_processor@*snow.shape_processor
+    - key_binder
+    - lua_processor@*snow.select_character
+    - speller
+    - punctuator
+    - selector
+    - navigator
+    - express_editor
+  segmentors:
+    - ascii_segmentor
+    - matcher
+    - abc_segmentor
+    - affix_segmentor@stroke
+    - affix_segmentor@pinyin
+    - affix_segmentor@jianpin
+    - punct_segmentor
+    - fallback_segmentor
+  translators:
+    - punct_translator
+    - script_translator
+    - script_translator@jianpin
+    - table_translator@stroke
+    - script_translator@pinyin
+    - lua_translator@*snow.datetime
+    - lua_translator@*snow.number
+    - lua_translator@*snow.calculator
+    - history_translator
+  filters:
+    - reverse_lookup_filter@lookup_pinyin
+    - reverse_lookup_filter@lookup_sanpin
+    - lua_filter@*snow.fix
+    - lua_filter@*snow.shape_filter
+    - lua_filter@*snow.postpone
+    - uniquifier
+    - simplifier
+    - lua_filter@*snow.hint
+
+speller:
+  alphabet: bpmfdtnlgkhjqxzcsrwye
+  delimiter: " "
+  shape:
+    - match: "[bpmfdtnlgkhjqxzcsrywe][a-z]([bpmfdtnlgkhjqxzcsrywe][a-z]?)?[viuoa]*"
+      accept: "[viuoa]"
+    - match: "[bpmfdtnlgkhjqxzcsrywe][viuoa]*"
+      accept: "[viuoa]"
+  popping:
+    # 四顶模式
+    # 630
+    - when: popping
+      match: "[bpmfdtnlgkhjqxzcsrywe][viuoa]+"
+      accept: "[bpmfdtnlgkhjqxzcsrywe]"
+    # 单字和三字词
+    - when: popping
+      match: "[bpmfdtnlgkhjqxzcsrywe]{2,3}[viuoa]+"
+      accept: "[bpmfdtnlgkhjqxzcsrywe]"
+    # 四字词和多字词
+    - when: popping
+      match: "[bpmfdtnlgkhjqxzcsrywe]{4,}[viuoa]*"
+      accept: "[bpmfdtnlgkhjqxzcsrywe]"
+    # 大写参与编码
+    - when: popping
+      match: "[bpmfdtnlgkhjqxzcsrywe][a-z]{3,}"
+      accept: "[BPMFDTNLGKHJQXZCSRYWE]"
+      strategy: append
+    # 顶标点
+    - match: ".*[^a-z0-9]"
+      accept: "[bpmfdtnlgkhjqxzcsrywe]"
+    # 标点大写顶
+    - match: ".*[a-z0-9]"
+      accept: "[^a-z0-9 ]"
+  algebra:
+    __include: snow_sanpin.schema.yaml:/sanpin_algebra
+    __append:
+      - abbrev/^([a-z]).+$/$1/ # 简拼
+      - xform/[viuoa]$// # 无声调
+
+jianpin:
+  tag: jianpin
+  dictionary: snow_pinyin
+  prism: snow_jiandao_jianpin
+  packs:
+    - snow_pinyin.base
+    - snow_pinyin.ext
+    - snow_pinyin.tencent
+    - snow_pinyin.user
+
+lookup_sanpin:
+  tags: [pinyin]
+  overwrite_comment: true
+  dictionary: snow_pinyin
+  comment_format:
+    __include: snow_sanpin.schema.yaml:/sanpin_algebra
+    __append:
+      - xform/[viuoa]( |$)/$1/ # 无声调
+
+__patch:
+  - patch
+  - snow_jiandao.custom:/patch?
+
+patch:
+  switches/+:
+    - name: popping
+      states: [整句, 顶功]
+      reset: 1
+    - name: chaifen
+      states: [默认, 拆分]
+      reset: 0
+    - name: buffered
+      states: [结束, 缓冲]
+      reset: 0
+  translator/prism: snow_jiandao
+  translator/preedit_format: null
+  translator/enable_schema_user_dict: true
+  translator/shape_elements: snow_jiandao_chaifen
+  translator/shape_mapping: "radical_jiandao.txt"
+  key_binder/bindings/+:
+    - { when: always, accept: "Control+j", toggle: buffered }
+    - { when: always, accept: "Control+l", send_sequence: "{Home}{Right}{Right}" }
+    - { when: always, accept: v, toggle: buffered }
+    - { when: composing, accept: v, send: v }
+  menu/alternative_select_keys: null
+  recognizer/patterns/jianpin: "^[bpmfdtnlgkhjqxzcsrywe]{3,}$"
+  stroke/prism: snow_jiandao_bihua
+  stroke/preedit_format: [xlit/viuoa/一丨丿丶乙/]

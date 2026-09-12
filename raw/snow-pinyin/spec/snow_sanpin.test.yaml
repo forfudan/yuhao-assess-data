@@ -1,0 +1,66 @@
+schema: snow_sanpin
+source_dir: ..
+script: |
+  function has(something)
+    for _, v in ipairs(cand) do
+      if v.text == something then
+        return true
+      end
+    end
+    return false
+  end
+deploy:
+  sentence:
+    patch:
+      'switches/@4/reset': 0
+    tests:
+      - send: bgxhpbyb
+        assert: cand[1].text == "冰雪拼音"
+  popping:
+    tests:
+      # 组词规则
+      - send: bgv
+        assert: cand[1].text == "冰"
+      - send: bgxh
+        assert: has("冰雪")
+      - send: jbekoo
+        assert: has("近世")
+      - send: erf
+        assert: has("输入法")
+      - send: bhhviv
+        assert: has("白花花")
+      - send: wmxw
+        assert: has("充满希望")
+      - send: jjjjuv
+        assert: has("经济基础")
+      - send: fwerF
+        assert: has("中文输入法")
+      - send: fhrmGHG
+        assert: has("中华人民共和国")
+      # 固顶词
+      - send: p
+        assert: cand[1].text == "平"
+      - send: xh
+        assert: cand[1].text == "学"
+      - send: be
+        assert: cand[1].text == "表示"
+      - send: yi
+        assert: cand[1].text == "一个"
+      # 首选后置
+      - send: ekek
+        assert: cand[1].text == "事实"
+      - send: ekeki
+        assert: cand[2].text == "事实"
+      # 顶功
+      - send: yiyi
+        assert: commit == "一个" and cand[1].text == "一个"
+      - send: bgvxhu
+        assert: commit == "冰" and cand[1].text == "雪"
+      - send: pbyberf
+        assert: commit == "拼音" and cand[1].text == "输入法"
+      # 动态码长
+      - send: "ekekvoekek"
+        assert: cand[1].text == "誓师"
+      # 缓冲造词
+      - send: "vbe kk  bekk"
+        assert: cand[1].text == "表示可靠"
