@@ -19447,6 +19447,7 @@
 㐀	bfko	0
 㐁	frhr	0
 㐂	kkkq	0
+㐂󠄁	nnnb	0
 㐃	hjri	0
 㐄	no	0
 㐅	gke	0
@@ -28025,6 +28026,7 @@
 浘	jdbm	0
 浝	jgwe	0
 浢	jfsh	0
+浩󠄁	jmsk	0
 浱	jvci	0
 涃	jrvm	0
 涄	jbco	0
@@ -28688,6 +28690,15 @@
 盓	jfjt	0
 盢	yptm	0
 盰	mngm	0
+直󠄁	mmna	0
+直󠄂	mmna	0
+直󠄃	mmhu	0
+直󠄄	mfso	0
+直󠄅	mxvf	0
+直󠄆	vfi	0
+直󠄇	hmna	0
+直󠄈	mxtf	0
+直󠄉	mdwh	0
 盵	mxnk	0
 盶	mflw	0
 眃	mtla	0
